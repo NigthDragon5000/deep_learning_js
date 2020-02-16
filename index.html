@@ -38,7 +38,8 @@ async function app() {
   console.log('Loading mobilenet..');
 
   // Load the model.
-  net = await mobilenet.load();
+  //net = await mobilenet.load();
+  net = await tf.loadLayersModel('https://foo.bar/tfjs_artifacts/model.json');
   console.log('Successfully loaded model');
   
   // Create an object from Tensorflow.js data API which could capture image 
