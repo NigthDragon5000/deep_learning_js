@@ -1,0 +1,178 @@
+
+
+<html>
+  <head>
+    <!-- Load the latest version of TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
+  </head>
+  <body>
+    <div id="console"></div>
+    <!-- Add an image that we will use to test -->
+    <!--<img id="img" crossorigin src="https://i.imgur.com/JlUvsxa.jpg" width="227" height="227"/>-->
+    <!-- Load index.js after the content of the page -->
+    <video autoplay playsinline muted id="webcam" width="224" height="224"></video>
+
+<script type=text/javascript src="{{ url_for('static', filename='classes.js') }}"></script>
+<script > 
+
+const webcamElement = document.getElementById('webcam');
+
+/*
+let net;
+async function app() {
+  console.log('Loading mobilenet..');
+  // Load the model.
+  net = await mobilenet.load();
+  console.log('Successfully loaded model');
+  // Make a prediction through the model on our image.
+  const imgEl = document.getElementById('img');
+  const result = await net.classify(imgEl);
+  console.log(result);
+}
+app();
+
+*/
+
+
+
+let net;
+
+url = 'https://gogul09.github.io/models/mobilenet/model.json';
+
+const modelURL = 'http://localhost:5000/model';
+
+
+function createCORSRequest(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+
+    // Check if the XMLHttpRequest object has a "withCredentials" property.
+    // "withCredentials" only exists on XMLHTTPRequest2 objects.
+    xhr.open(method, url, true);
+
+  } else if (typeof XDomainRequest != "undefined") {
+
+    // Otherwise, check if XDomainRequest.
+    // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+
+  } else {
+
+    // Otherwise, CORS is not supported by the browser.
+    xhr = null;
+
+  }
+  return xhr;
+}
+
+var xhr = createCORSRequest('GET', url);
+if (!xhr) {
+  throw new Error('CORS not supported');
+}
+
+console.log(xhr);
+
+async function app() {
+
+
+  console.log('Loading mobilenet..');
+
+  // Load the model.
+  //net = await mobilenet.load();
+
+  //let modelo= await makeCorsRequest();
+
+  //console.log(modelo);
+
+  //net = await tf.loadLayersModel(xhr);
+
+  net = await tf.loadLayersModel('https://gogul09.github.io/models/mobilenet/model.json');
+
+  
+  
+  //net = await tf.loadLayersModel(modelURL);
+  //net = await tf.loadLayersModel('https://github.com/NigthDragon5000/deep_learning_js/blob/master/model.json');
+  console.log('Successfully loaded model');
+  
+  console.log(net);
+
+  // Create an object from Tensorflow.js data API which could capture image 
+  // from the web camera as Tensor.
+  const webcam = await tf.data.webcam(webcamElement);
+  while (true) 
+  
+  {
+
+    const img = await webcam.capture();
+
+    console.log('shape:', img.shape);
+
+    const tensor = img.reshape([1,224, 224,3])
+
+    //let tensor = tf.browser.fromPixels(img)
+    //.resizeNearestNeighbor([224, 224])
+    //.toFloat()
+    //.expandDims();
+
+    //tensor=await tf.fromPixels(img).resizeBilinear([48,48]
+
+// More pre-processing to be added here later
+
+    let predictions = await net.predict(tensor).data();
+
+    console.log(predictions);
+
+    let top5 = Array.from(predictions)
+    .map(function (p,i) {
+        return {
+            probability: p,
+            className: IMAGENET_CLASSES[i]
+        };
+    }).sort(function (a, b) {
+        return b.probability - a.probability;
+    }).slice(0, 5);
+
+    console.log(top5);
+
+    document.getElementById('console').innerText = `
+          prediction: ${top5[0].className}\n
+          probability: ${top5[0].probability}
+        `;
+
+    img.dispose();
+
+    //img=await tf.fromPixels(img).resizeBilinear([48,48])
+
+        /*
+
+        const result = await net.classify(img);
+
+        //const result = await net.predict(img);
+
+        console.log(result);
+
+        document.getElementById('console').innerText = `
+          prediction: ${result[0].className}\n
+          probability: ${result[0].probability}
+        `;
+        // Dispose the tensor to release the memory.
+        img.dispose();
+
+        // Give some breathing room by waiting for the next animation frame to
+        // fire.
+
+        */
+    await tf.nextFrame();
+
+        //break;
+  }
+}
+
+
+app();
+
+</script>
+  </body>
+</html>
