@@ -1,4 +1,18 @@
 
+
+IMAGENET_CLASSES = {
+    0: "angry",
+    1: "disgust",
+    2: "scared",
+    2: "happy",
+    4: "sad",
+    5: "surprised",
+    6: "neutral"
+  };
+  
+  
+
+/*
 const IMAGENET_CLASSES = {
     0: 'tench, Tinca tinca',
     1: 'goldfish, Carassius auratus',
@@ -1022,3 +1036,6 @@ const IMAGENET_CLASSES = {
     998: 'ear, spike, capitulum',
     999: 'toilet tissue, toilet paper, bathroom tissue'
 };
+
+
+*/

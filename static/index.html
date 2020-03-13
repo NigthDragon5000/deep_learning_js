@@ -13,7 +13,7 @@
     <!-- Load index.js after the content of the page -->
     <video autoplay playsinline muted id="webcam" width="224" height="224"></video>
 
-<script type=text/javascript src="{{ url_for('static', filename='classes.js') }}"></script>
+<script type=text/javascript src="classes.js"></script>
 <script > 
 
 const webcamElement = document.getElementById('webcam');
@@ -38,11 +38,11 @@ app();
 
 let net;
 
-url = 'https://gogul09.github.io/models/mobilenet/model.json';
+//url = 'https://gogul09.github.io/models/mobilenet/model.json';
 
-const modelURL = 'http://localhost:5000/model';
+//const modelURL = 'http://127.0.0.1:5000';
 
-
+/*
 function createCORSRequest(method, url) {
   var xhr = new XMLHttpRequest();
   if ("withCredentials" in xhr) {
@@ -73,6 +73,7 @@ if (!xhr) {
 }
 
 console.log(xhr);
+*/
 
 async function app() {
 
@@ -89,10 +90,10 @@ async function app() {
   //net = await tf.loadLayersModel(xhr);
 
 
-  net = await tf.loadLayersModel('https://gogul09.github.io/models/mobilenet/model.json');
+  //net = await tf.loadLayersModel('https://gogul09.github.io/models/mobilenet/model.json');
 
-  
-  //net = await tf.loadLayersModel('https://github.com/NigthDragon5000/deep_learning_js/tree/master/model/model.json');
+  net = await tf.loadLayersModel('model/model.json');
+  //net = await tf.loadGraphModel(modelURL);
   //net = await tf.loadGraphModel('https://github.com/NigthDragon5000/deep_learning_js/tree/master/model/model.json');
 
   
@@ -100,21 +101,37 @@ async function app() {
   //net = await tf.loadLayersModel(modelURL);
   //net = await tf.loadLayersModel('https://github.com/NigthDragon5000/deep_learning_js/blob/master/model.json');
   console.log('Successfully loaded model');
-  
-  console.log(net);
 
   // Create an object from Tensorflow.js data API which could capture image 
   // from the web camera as Tensor.
   const webcam = await tf.data.webcam(webcamElement);
+
   while (true) 
-  
   {
 
     const img = await webcam.capture();
 
-    console.log('shape:', img.shape);
+    let tensor = tf.image.resizeBilinear(img, [48, 48]);
 
-    const tensor = img.reshape([1,224, 224,3])
+    //print(tensor.shape)
+
+    //img = tf.image.rgb_to_grayscale(img)
+
+    tensor = tensor.mean(2)
+
+    //console.log('shape:', img.shape)
+
+    tensor = tensor.reshape([1,48,48,1])
+
+    /*
+    let tensor = tf.browser.fromPixels(img, 1)
+		//.resizeNearestNeighbor([224, 224]) // change the image size
+		.resizeNearestNeighbor([48, 48]) // change the image size
+		.expandDims()
+		.toFloat()
+    .reverse(-1); // RGB -> BGR
+    */
+    console.log('tensor shape:', tensor.shape);
 
     //let tensor = tf.browser.fromPixels(img)
     //.resizeNearestNeighbor([224, 224])
@@ -147,6 +164,8 @@ async function app() {
         `;
 
     img.dispose();
+    tensor.dispose();
+    //predictions.dispose();
 
     //img=await tf.fromPixels(img).resizeBilinear([48,48])
 
@@ -171,7 +190,7 @@ async function app() {
         */
     await tf.nextFrame();
 
-        //break;
+    //break;
   }
 }
 

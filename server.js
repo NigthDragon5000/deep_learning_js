@@ -1,4 +1,4 @@
-
+/*
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -47,6 +47,8 @@ app.use(cors({
   }
 */
 
+
+/*
 app.get('/', (req, res,next) => {
     res.sendFile('index.html', {
         root: path.join(__dirname, './')
@@ -54,4 +56,15 @@ app.get('/', (req, res,next) => {
 });
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));
+
+*/
+
+let express = require("express");
+let app = express();
+
+app.use(express.static("./static"));
+
+app.listen(81, function() {
+    console.log("Listening on port 81");
+});
 
