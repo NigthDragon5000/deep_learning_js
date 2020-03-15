@@ -9,6 +9,7 @@
 
     <div>Teachable Machine Image Model</div>
     <button type="button" onclick="init()">Start</button>
+    <div id="puntaje"></div>
     <div id="console"></div>
     <div id="webcam-container"></div>
     <div id="label-container"></div>
@@ -22,6 +23,25 @@
         const URL = "https://teachablemachine.withgoogle.com/models/EpRGlKYQ/";
     
         let model, webcam, labelContainer, maxPredictions;
+
+        let arr=["Golpe","Bloqueo","Push"];
+
+        const sleep = m => new Promise(r => setTimeout(r, m))
+
+        let esperado;
+        let puntaje = 0 ;
+        // Select in a random way the fight pose
+        async function aleatory() {
+                let prop = arr[Math.floor(Math.random() * arr.length)];
+                console.log(prop)
+
+                var msg = new SpeechSynthesisUtterance(prop);
+                window.speechSynthesis.speak(msg);
+
+                await sleep(3000)
+                esperado = prop;
+                return prop
+            }
     
         // Load the image model and setup the webcam
         async function init() {
@@ -52,12 +72,16 @@
     
         async function loop() {
             webcam.update(); // update the webcam frame
+            await aleatory();
             await predict();
             window.requestAnimationFrame(loop);
         }
     
         // run the webcam image through the image model
         async function predict() {
+            
+            //result=aleatory()
+            //await sleep(3000)
             // predict can take in an image, video or canvas html element
             const prediction = await model.predict(webcam.canvas);
             let max=0;
@@ -78,10 +102,15 @@
                     prediction: ${prediction[i].className}
         `           ;
 
-                                   // check if is "golpe!"
-                    if (prediction[i].className=="Golpe") {
-                    console.log('correcto')
-                    };              
+                        // check if is correct the pose 
+                        if (prediction[i].className==esperado) {
+                        console.log('correcto');
+                        puntaje = puntaje +1 ;
+                        document.getElementById('puntaje').innerText = `
+                        score: ${puntaje}
+            `           ;
+
+                        };              
 
                 };
 
