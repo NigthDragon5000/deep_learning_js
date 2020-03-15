@@ -70,9 +70,9 @@
             }
         }
     
-        async function loop() {
-            webcam.update(); // update the webcam frame
+        async function loop() {      
             await aleatory();
+            webcam.update(); // update the webcam frame
             await predict();
             window.requestAnimationFrame(loop);
         }
