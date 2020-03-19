@@ -20,8 +20,9 @@
         // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
     
         // the link to your model provided by Teachable Machine export panel
-        const URL = "https://teachablemachine.withgoogle.com/models/EpRGlKYQ/";
-    
+        //const URL = "https://teachablemachine.withgoogle.com/models/EpRGlKYQ/";
+        const URL = "https://teachablemachine.withgoogle.com/models/sOKDkEYqq/";
+
         let model, webcam, labelContainer, maxPredictions;
 
         let arr=["Golpe","Bloqueo","Push"];
@@ -38,7 +39,7 @@
                 var msg = new SpeechSynthesisUtterance(prop);
                 window.speechSynthesis.speak(msg);
 
-                await sleep(3000)
+                await sleep(3000);
                 esperado = prop;
                 return prop
             }
@@ -110,7 +111,16 @@
                         score: ${puntaje}
             `           ;
 
-                        };              
+                        var msg2 = new SpeechSynthesisUtterance('Good');
+                        window.speechSynthesis.speak(msg2);
+
+                        }
+                        
+                        else {
+                        var msg2 = new SpeechSynthesisUtterance('Bad');
+                        window.speechSynthesis.speak(msg2);                           
+
+                        };
 
                 };
 
