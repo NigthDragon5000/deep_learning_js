@@ -1,0 +1,20 @@
+{
+  "name": "model_js",
+  "version": "1.0.0",
+  "description": "English : Application of deep learning in java script (Live fight poses recognition) \r Español : Aplicación de aprendizaje profundo en java script (reconocimiento de poses de pelea en vivo)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NigthDragon5000/deep_learning_js.git"
+  },
+  "author": "Jair Condori",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NigthDragon5000/deep_learning_js/issues"
+  },
+  "homepage": "https://github.com/NigthDragon5000/deep_learning_js#readme"
+}
