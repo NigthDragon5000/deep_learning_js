@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/NigthDragon5000/deep_learning_js/issues"
   },
-  "homepage": "https://github.com/NigthDragon5000/deep_learning_js#readme"
+  "homepage": "https://github.com/NigthDragon5000/deep_learning_js#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "request": "^2.88.0"
+  }
 }
