@@ -21,11 +21,12 @@
     
         // the link to your model provided by Teachable Machine export panel
         //const URL = "https://teachablemachine.withgoogle.com/models/EpRGlKYQ/";
-        const URL = "https://teachablemachine.withgoogle.com/models/sOKDkEYqq/";
+        //const URL = "https://teachablemachine.withgoogle.com/models/sOKDkEYqq/"; // Modelo conmigo parado
+        const URL =  "https://teachablemachine.withgoogle.com/models/7SSGXaIyC/" ; 
 
         let model, webcam, labelContainer, maxPredictions;
 
-        let arr=["Golpe","Bloqueo","Push"];
+        let arr=["Golpe","Bloqueo"];
 
         const sleep = m => new Promise(r => setTimeout(r, m))
 
@@ -108,7 +109,7 @@
         `           ;
 
                         // check if is correct the pose 
-                        if (prediction[i].className==esperado) {
+                        if (prediction[i].className==esperado && tiempo ==1) {
                         console.log('correcto');
                         puntaje = puntaje +1 ;
                         document.getElementById('puntaje').innerText = `
@@ -121,11 +122,15 @@
 
                         }
                         
-                        else {
+                        else if (prediction[i].className!=esperado && tiempo ==1){
                         //var msg2 = new SpeechSynthesisUtterance('Bad');
                         //window.speechSynthesis.speak(msg2);     
                         console.log('Bad')                      
 
+                        }
+
+                        else {
+                            //empty
                         };
 
                 };
