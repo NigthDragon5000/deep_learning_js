@@ -7,8 +7,9 @@
 </head>
 <body>
 
-    <div>Teachable Machine Image Model</div>
+    <div>AI Fight</div>
     <button type="button" onclick="init()">Start</button>
+    <h1 id="lives"></h1>
     <h1 id="puntaje"></h1>
     <div id="console"></div>
     <div id="webcam-container"></div>
@@ -37,9 +38,13 @@
         var ctx = can.getContext("2d");
         var im = document.getElementById("my");
         var vin = document.getElementById("ny");
-        
+        let lives = 4 ; 
+
         // Select in a random way the fight pose
         async function aleatory() {
+                
+       
+            
                 if (tiempo == 0 ) {
                 let prop = arr[Math.floor(Math.random() * arr.length)];
                 console.log(prop)
@@ -134,13 +139,24 @@
                         //var msg2 = new SpeechSynthesisUtterance('Good');
                         //window.speechSynthesis.speak(msg2);
                         
-
-                        }
-                        
+                        }         
                         else if (prediction[i].className!=esperado && tiempo ==1){
                         //var msg2 = new SpeechSynthesisUtterance('Bad');
                         //window.speechSynthesis.speak(msg2);     
-                        console.log('Bad')                      
+                        console.log('Bad') 
+                        lives = lives -1 ; 
+
+                        document.getElementById('lives').innerText = `
+                        LIVES: ${lives}
+            `           ;
+                         
+                           if (lives ==0 ){
+                             alert("GAME OVER!");
+ 
+                           }
+                           else {
+                           // pass !!
+                           }; 
 
                         }
 
