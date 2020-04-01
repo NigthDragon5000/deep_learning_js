@@ -9,7 +9,7 @@
 
     <div>Teachable Machine Image Model</div>
     <button type="button" onclick="init()">Start</button>
-    <div id="puntaje"></div>
+    <h1 id="puntaje"></h1>
     <div id="console"></div>
     <div id="webcam-container"></div>
     <div id="label-container"></div>
@@ -31,17 +31,21 @@
 
         let esperado;
         let puntaje = 0 ;
+        let tiempo = 100;
         // Select in a random way the fight pose
         async function aleatory() {
+                if (tiempo == 0 ) {
                 let prop = arr[Math.floor(Math.random() * arr.length)];
                 console.log(prop)
 
                 var msg = new SpeechSynthesisUtterance(prop);
                 window.speechSynthesis.speak(msg);
 
-                await sleep(3000);
+                //await sleep(3000);
                 esperado = prop;
+                tiempo = 50;
                 return prop
+                }
             }
     
         // Load the image model and setup the webcam
@@ -111,14 +115,16 @@
                         score: ${puntaje}
             `           ;
 
-                        var msg2 = new SpeechSynthesisUtterance('Good');
-                        window.speechSynthesis.speak(msg2);
+                        //var msg2 = new SpeechSynthesisUtterance('Good');
+                        //window.speechSynthesis.speak(msg2);
+                        
 
                         }
                         
                         else {
-                        var msg2 = new SpeechSynthesisUtterance('Bad');
-                        window.speechSynthesis.speak(msg2);                           
+                        //var msg2 = new SpeechSynthesisUtterance('Bad');
+                        //window.speechSynthesis.speak(msg2);     
+                        console.log('Bad')                      
 
                         };
 
@@ -126,6 +132,8 @@
 
 
             };
+            tiempo = tiempo - 1
+            console.log(tiempo)
         }
     </script>
 
