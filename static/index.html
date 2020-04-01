@@ -13,6 +13,9 @@
     <div id="console"></div>
     <div id="webcam-container"></div>
     <div id="label-container"></div>
+    <canvas id="mycanvas" width="300" height="300" style="border:1px solid   #000000;">
+        <img src="golpee.jpg" id="my" width="200" height="100" />
+        <img src="neutrall.jpg" id="ny" width="200" height="100" />
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
     <script type="text/javascript">
@@ -25,19 +28,31 @@
         const URL =  "https://teachablemachine.withgoogle.com/models/7SSGXaIyC/" ; 
 
         let model, webcam, labelContainer, maxPredictions;
-
         let arr=["Golpe","Bloqueo"];
-
         const sleep = m => new Promise(r => setTimeout(r, m))
-
         let esperado;
         let puntaje = 0 ;
         let tiempo = 100;
+        var can = document.getElementById("mycanvas");
+        var ctx = can.getContext("2d");
+        var im = document.getElementById("my");
+        var vin = document.getElementById("ny");
+        
         // Select in a random way the fight pose
         async function aleatory() {
                 if (tiempo == 0 ) {
                 let prop = arr[Math.floor(Math.random() * arr.length)];
                 console.log(prop)
+
+                    if (prop=="Golpe") {
+                        ctx.drawImage(vin, 0, 0, can.width, can.height);
+                    }
+                    else if (prop=="Bloqueo") {
+                        ctx.drawImage(im, 0, 0, can.width, can.height);
+                    }
+                    else {
+
+                    };
 
                 var msg = new SpeechSynthesisUtterance(prop);
                 window.speechSynthesis.speak(msg);
