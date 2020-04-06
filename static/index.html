@@ -44,17 +44,16 @@
         let esperado;
         let puntaje = 0 ;
         let tiempo = 100;
-        var can = document.getElementById("mycanvas");
-        var ctx = can.getContext("2d");
-        var im = document.getElementById("my");
-        var vin = document.getElementById("ny");
+        let can = document.getElementById("mycanvas");
+        let ctx = can.getContext("2d");
+        let im = document.getElementById("my");
+        let vin = document.getElementById("ny");
         let lives = 4 ; 
 
         // Select in a random way the fight pose
         async function aleatory() {
                 
-       
-            
+    
                 if (tiempo == 0 ) {
                 let prop = arr[Math.floor(Math.random() * arr.length)];
                 console.log(prop)
@@ -74,7 +73,23 @@
 
                 //await sleep(3000);
                 esperado = prop;
-                tiempo = 50;
+                    if (puntaje <=5){
+                        tiempo = 50;
+                    }
+                    else if (puntaje <=10){
+                        tiempo = 45;
+                    }
+                    else if (puntaje <=15){
+                        tiempo = 40;
+                    }
+                    else if (puntaje <=20){
+                        tiempo = 35;
+                    }
+                    else  {
+                        tiempo = 30;
+    
+                    };
+
                 return prop
                 }
             }
@@ -162,6 +177,7 @@
                          
                            if (lives ==0 ){
                              alert("GAME OVER!");
+                             window.location.reload(false);
  
                            }
                            else {
