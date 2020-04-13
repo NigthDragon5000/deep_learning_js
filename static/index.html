@@ -132,14 +132,15 @@
 
             webcam.update(); // update the webcam frame
 
+            await predict();
+
             // For calculate fps 
             let thisLoop = new Date();
             let fps = 1000 / (thisLoop - lastLoop);
             let timeBetween = thisLoop - lastLoop;
-            console.log('Frames per second are: ' + fps+' and time between is: '+timeBetween);
+        //    console.log('Frames per second are: ' + fps+' and time between is: '+timeBetween);
             document.getElementById('timeBetween').innerText = `  ${timeBetween} `
 
-            await predict();
             window.requestAnimationFrame(loop);
         }
     
