@@ -24,6 +24,8 @@
     <img src="golpee.jpg" id="my" width="200" height="100"  style="display:none" />
     <img src="neutrall.jpg" id="ny" width="200" height="100"  style="display:none" />
 
+    <h1 id="timeBetween"></h1>
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>      
@@ -49,6 +51,7 @@
         let im = document.getElementById("my");
         let vin = document.getElementById("ny");
         let lives = 4 ; 
+        
 
         // Select in a random way the fight pose
         async function aleatory() {
@@ -123,7 +126,19 @@
     
         async function loop() {      
             await aleatory();
+
+            // Setting the variable for fps
+            let lastLoop = new Date();
+
             webcam.update(); // update the webcam frame
+
+            // For calculate fps 
+            let thisLoop = new Date();
+            let fps = 1000 / (thisLoop - lastLoop);
+            let timeBetween = thisLoop - lastLoop;
+            console.log('Frames per second are: ' + fps+' and time between is: '+timeBetween);
+            document.getElementById('timeBetween').innerText = `  ${timeBetween} `
+
             await predict();
             window.requestAnimationFrame(loop);
         }
@@ -155,7 +170,7 @@
 
                         // check if is correct the pose 
                         if (prediction[i].className==esperado && tiempo ==1) {
-                        console.log('correcto');
+                       // console.log('correcto');
                         puntaje = puntaje +1 ;
                         document.getElementById('puntaje').innerText = `
                         score: ${puntaje}
@@ -168,7 +183,7 @@
                         else if (prediction[i].className!=esperado && tiempo ==1){
                         //var msg2 = new SpeechSynthesisUtterance('Bad');
                         //window.speechSynthesis.speak(msg2);     
-                        console.log('Bad') 
+                       // console.log('Bad') 
                         lives = lives -1 ; 
 
                         document.getElementById('lives').innerText = `
@@ -195,7 +210,7 @@
 
             };
             tiempo = tiempo - 1
-            console.log(tiempo)
+          //  console.log(tiempo)
         }
     </script>
 
