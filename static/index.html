@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Games</title>
+<link rel="icon" href="favicon.png">
 </head>
 <style>
     body {
@@ -29,12 +30,37 @@
        margin: auto;
        max-width: 45%; 
        }
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+        margin: auto;
+        }
+
+        /* Safari */
+     @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+        }
+
+     @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+        }
 </style>
 <body>
 
     <div>AI Fight</div>
-    <button type="button" onclick="init()">Start</button>
-   
+    <button type="button" onclick="init()" id='boton'>Start</button>
+ 
+    <div id="myDIV" style="display:none" >
+        <div class="loader"   ></div>
+    </div>
+    
    <div class="i-am-centered">
     <div class="row"> 
         &nbsp;
@@ -87,7 +113,18 @@
         let vin = document.getElementById("ny");
         let lives = 4 ; 
         let music = document.getElementById("myAudio"); 
-        
+        let boton = document.getElementById("boton");
+
+
+        function show_hide() {
+                var x = document.getElementById("myDIV");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+            }
+
 
         // Select in a random way the fight pose
         async function aleatory() {
@@ -142,8 +179,13 @@
     
         // Load the image model and setup the webcam
         async function init() {
+
+            boton.style.display = "none"
+
             music.volume = 0.2;
-            music.play();
+            music.play(); // Activating music
+
+            show_hide();
 
             const modelURL = URL + "model.json";
             const metadataURL = URL + "metadata.json";
@@ -232,7 +274,6 @@
                         //window.speechSynthesis.speak(msg2);     
                        // console.log('Bad') 
 
-
                         lives = lives -1 ; 
 
                         document.getElementById('lives').innerText = `
@@ -270,7 +311,8 @@
             
             if (lives == 4 & tiempo == 30){
                        var msg = new SpeechSynthesisUtterance('start');
-                            window.speechSynthesis.speak(msg);
+                       window.speechSynthesis.speak(msg);
+                       show_hide();
                       }
             tiempo = tiempo - 1
           //  console.log(tiempo)
