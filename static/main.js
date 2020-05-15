@@ -22,6 +22,7 @@
         let music = document.getElementById("myAudio"); 
         let stadium = document.getElementById("stadium"); 
         let boton = document.getElementById("boton");
+        let developer = document.getElementById("developer");
 
 
         function show_hide() {
@@ -90,6 +91,7 @@
 
             boton.style.display = "none"
             inline.style.display = "none"
+            developer.style.display = "none"
 
             music.volume = 0.2;
             music.play(); // Activating music
